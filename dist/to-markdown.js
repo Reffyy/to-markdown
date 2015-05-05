@@ -78,7 +78,15 @@ function createHtmlParser() {
   var Parser = function () {};
 
   Parser.prototype.parseFromString = function (string) {
-    var newDoc = _document.implementation.createHTMLDocument('');
+    
+    var newDoc;
+    if ($('html').hasClass('lt-ie9')) {
+        newDoc = document.createElement('div');
+        newDoc.body = newDoc;
+    }
+    else {
+        newDoc = _document.implementation.createHTMLDocument('');
+    }
 
     if (string.toLowerCase().indexOf('<!doctype') > -1) {
       newDoc.documentElement.innerHTML = string;
